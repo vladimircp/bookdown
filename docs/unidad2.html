@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Unidad 2 · Patrones temporales en precios de acciones | Módulo 2 - Unidad 1 · Holt-Winters y suavizamiento exponencial</title>
+  <meta name="description" content="Chapter 5 Unidad 2 · Patrones temporales en precios de acciones | Módulo 2 - Unidad 1 · Holt-Winters y suavizamiento exponencial" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Unidad 2 · Patrones temporales en precios de acciones | Módulo 2 - Unidad 1 · Holt-Winters y suavizamiento exponencial" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Unidad 2 · Patrones temporales en precios de acciones | Módulo 2 - Unidad 1 · Holt-Winters y suavizamiento exponencial" />
+  
+  
+  
+
+<meta name="author" content="Vladimir Castillo Pérez" />
+
+
+<meta name="date" content="2025-05-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="alcance-del-pronóstico.html"/>
+<link rel="next" href="unidad3.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="justificación.html"><a href="justificación.html"><i class="fa fa-check"></i><b>2</b> Justificación</a></li>
+<li class="chapter" data-level="3" data-path="fuentes-de-información-y-permisos.html"><a href="fuentes-de-información-y-permisos.html"><i class="fa fa-check"></i><b>3</b> Fuentes de información y permisos</a></li>
+<li class="chapter" data-level="4" data-path="alcance-del-pronóstico.html"><a href="alcance-del-pronóstico.html"><i class="fa fa-check"></i><b>4</b> Alcance del pronóstico</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="alcance-del-pronóstico.html"><a href="alcance-del-pronóstico.html#el-análisis-abarcará-un-horizonte-de-30-a-90-días-con-reevaluación-semanal-priorizando-métricas-de-precisión-como-mae-y-rmse-y-la-construcción-de-intervalos-de-predicción-al-95-."><i class="fa fa-check"></i><b>4.1</b> El análisis abarcará un horizonte de <strong>30 a 90 días</strong> con reevaluación semanal, priorizando métricas de precisión como <em>MAE</em> y <em>RMSE</em> y la construcción de intervalos de predicción al 95 %.</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="unidad2.html"><a href="unidad2.html"><i class="fa fa-check"></i><b>5</b> Unidad 2 · Patrones temporales en precios de acciones</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="unidad2.html"><a href="unidad2.html#configuración-inicial"><i class="fa fa-check"></i><b>5.1</b> Configuración inicial</a></li>
+<li class="chapter" data-level="5.2" data-path="unidad2.html"><a href="unidad2.html#definición-de-parámetros-y-descarga-de-datos"><i class="fa fa-check"></i><b>5.2</b> Definición de parámetros y descarga de datos</a></li>
+<li class="chapter" data-level="5.3" data-path="unidad2.html"><a href="unidad2.html#preparación-y-limpieza-de-datos"><i class="fa fa-check"></i><b>5.3</b> Preparación y limpieza de datos</a></li>
+<li class="chapter" data-level="5.4" data-path="unidad2.html"><a href="unidad2.html#visualización-del-precio-ajustado-diario"><i class="fa fa-check"></i><b>5.4</b> Visualización del precio ajustado diario</a></li>
+<li class="chapter" data-level="5.5" data-path="unidad2.html"><a href="unidad2.html#cálculo-y-visualización-de-medias-móviles"><i class="fa fa-check"></i><b>5.5</b> Cálculo y visualización de medias móviles</a></li>
+<li class="chapter" data-level="5.6" data-path="unidad2.html"><a href="unidad2.html#cálculo-de-rendimientos-diarios-y-acf"><i class="fa fa-check"></i><b>5.6</b> Cálculo de rendimientos diarios y ACF</a></li>
+<li class="chapter" data-level="5.7" data-path="unidad2.html"><a href="unidad2.html#estacionalidad-y-descomposición-stl"><i class="fa fa-check"></i><b>5.7</b> Estacionalidad y descomposición STL</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="unidad3.html"><a href="unidad3.html"><i class="fa fa-check"></i><b>6</b> Unidad 3 · Procesamiento y Visualización</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="unidad3.html"><a href="unidad3.html#prueba-de-estacionariedad"><i class="fa fa-check"></i><b>6.1</b> Prueba de estacionariedad</a></li>
+<li class="chapter" data-level="6.2" data-path="unidad3.html"><a href="unidad3.html#diferenciación-y-transformación"><i class="fa fa-check"></i><b>6.2</b> Diferenciación y transformación</a></li>
+<li class="chapter" data-level="6.3" data-path="unidad3.html"><a href="unidad3.html#justificación-de-los-procedimientos"><i class="fa fa-check"></i><b>6.3</b> Justificación de los procedimientos</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="unidad4.html"><a href="unidad4.html"><i class="fa fa-check"></i><b>7</b> Módulo 2 - Unidad 1 · Holt-Winters y suavizamiento exponencial</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="unidad4.html"><a href="unidad4.html#hot-winters"><i class="fa fa-check"></i><b>7.1</b> Hot-Winters</a></li>
+<li class="chapter" data-level="7.2" data-path="unidad4.html"><a href="unidad4.html#interpretación-de-los-resultados"><i class="fa fa-check"></i><b>7.2</b> Interpretación de los resultados</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Módulo 2 - Unidad 1 · Holt-Winters y suavizamiento exponencial</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="unidad2" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Unidad 2 · Patrones temporales en precios de acciones<a href="unidad2.html#unidad2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Patrones temporales en precios de acciones</strong></p>
+<p>A lo largo de esta unidad analizaremos cómo descargar, preparar y visualizar series temporales de precios de acciones, calcular indicadores básicos (medias móviles y rendimientos), evaluar la autocorrelación y descomponer la serie en sus componentes de tendencia, estacionalidad y ruido.</p>
+<div id="configuración-inicial" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Configuración inicial<a href="unidad2.html#configuración-inicial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En esta sección definimos las opciones globales de <code>knitr</code> para controlar la salida de mensajes, advertencias y la apariencia de los gráficos. Además, cargamos todas las librerías necesarias para el análisis.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="unidad2.html#cb1-1" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="cb1-2"><a href="unidad2.html#cb1-2" tabindex="-1"></a>  <span class="at">echo       =</span> <span class="cn">TRUE</span>,  <span class="co"># mostrar código</span></span>
+<span id="cb1-3"><a href="unidad2.html#cb1-3" tabindex="-1"></a>  <span class="at">message    =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-4"><a href="unidad2.html#cb1-4" tabindex="-1"></a>  <span class="at">warning    =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-5"><a href="unidad2.html#cb1-5" tabindex="-1"></a>  <span class="at">fig.align  =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb1-6"><a href="unidad2.html#cb1-6" tabindex="-1"></a>  <span class="at">fig.width  =</span> <span class="dv">7</span>,</span>
+<span id="cb1-7"><a href="unidad2.html#cb1-7" tabindex="-1"></a>  <span class="at">fig.height =</span> <span class="dv">4</span></span>
+<span id="cb1-8"><a href="unidad2.html#cb1-8" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="unidad2.html#cb1-9" tabindex="-1"></a><span class="fu">library</span>(tidyquant)   <span class="co"># facilita la descarga y graficación</span></span>
+<span id="cb1-10"><a href="unidad2.html#cb1-10" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-11"><a href="unidad2.html#cb1-11" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-12"><a href="unidad2.html#cb1-12" tabindex="-1"></a><span class="fu">library</span>(tsibble)     <span class="co"># manipulación de series</span></span>
+<span id="cb1-13"><a href="unidad2.html#cb1-13" tabindex="-1"></a><span class="fu">library</span>(feasts)      <span class="co"># descomposición y ACF</span></span>
+<span id="cb1-14"><a href="unidad2.html#cb1-14" tabindex="-1"></a><span class="fu">library</span>(quantmod)</span>
+<span id="cb1-15"><a href="unidad2.html#cb1-15" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code></pre></div>
+</div>
+<div id="definición-de-parámetros-y-descarga-de-datos" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Definición de parámetros y descarga de datos<a href="unidad2.html#definición-de-parámetros-y-descarga-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Aquí especificamos el símbolo bursátil (symbol) y el rango de fechas (fecha_ini a fecha_fin). Luego usamos quantmod::getSymbols() para traer los precios ajustados de cierre desde Yahoo Finance.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="unidad2.html#cb2-1" tabindex="-1"></a>symbol    <span class="ot">&lt;-</span> <span class="st">&quot;AAPL&quot;</span>                    <span class="co"># Símbolo de Apple</span></span>
+<span id="cb2-2"><a href="unidad2.html#cb2-2" tabindex="-1"></a>fecha_ini <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2022-01-01&quot;</span>)     <span class="co"># Fecha de inicio</span></span>
+<span id="cb2-3"><a href="unidad2.html#cb2-3" tabindex="-1"></a>fecha_fin <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()                <span class="co"># Fecha final (hoy)</span></span>
+<span id="cb2-4"><a href="unidad2.html#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="unidad2.html#cb2-5" tabindex="-1"></a><span class="co"># Descarga la serie histórica como objeto xts</span></span>
+<span id="cb2-6"><a href="unidad2.html#cb2-6" tabindex="-1"></a>stock_xts <span class="ot">&lt;-</span> <span class="fu">getSymbols</span>(</span>
+<span id="cb2-7"><a href="unidad2.html#cb2-7" tabindex="-1"></a>  symbol,</span>
+<span id="cb2-8"><a href="unidad2.html#cb2-8" tabindex="-1"></a>  <span class="at">src         =</span> <span class="st">&quot;yahoo&quot;</span>,</span>
+<span id="cb2-9"><a href="unidad2.html#cb2-9" tabindex="-1"></a>  <span class="at">from        =</span> fecha_ini,</span>
+<span id="cb2-10"><a href="unidad2.html#cb2-10" tabindex="-1"></a>  <span class="at">to          =</span> fecha_fin,</span>
+<span id="cb2-11"><a href="unidad2.html#cb2-11" tabindex="-1"></a>  <span class="at">auto.assign =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-12"><a href="unidad2.html#cb2-12" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="preparación-y-limpieza-de-datos" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Preparación y limpieza de datos<a href="unidad2.html#preparación-y-limpieza-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Convertimos el objeto xts en un data.frame, renombramos las columnas para facilitar su uso y seleccionamos solo la fecha y el precio ajustado.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="unidad2.html#cb3-1" tabindex="-1"></a><span class="co"># De xts a data.frame con columna &#39;fecha&#39;</span></span>
+<span id="cb3-2"><a href="unidad2.html#cb3-2" tabindex="-1"></a>stock_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-3"><a href="unidad2.html#cb3-3" tabindex="-1"></a>  <span class="at">fecha =</span> zoo<span class="sc">::</span><span class="fu">index</span>(stock_xts),</span>
+<span id="cb3-4"><a href="unidad2.html#cb3-4" tabindex="-1"></a>  <span class="fu">coredata</span>(stock_xts),</span>
+<span id="cb3-5"><a href="unidad2.html#cb3-5" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">NULL</span></span>
+<span id="cb3-6"><a href="unidad2.html#cb3-6" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="unidad2.html#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="unidad2.html#cb3-8" tabindex="-1"></a><span class="co"># Renombrar columnas para mayor claridad</span></span>
+<span id="cb3-9"><a href="unidad2.html#cb3-9" tabindex="-1"></a><span class="fu">colnames</span>(stock_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb3-10"><a href="unidad2.html#cb3-10" tabindex="-1"></a>  <span class="st">&quot;fecha&quot;</span>,</span>
+<span id="cb3-11"><a href="unidad2.html#cb3-11" tabindex="-1"></a>  <span class="st">&quot;open&quot;</span>, <span class="st">&quot;high&quot;</span>, <span class="st">&quot;low&quot;</span>, <span class="st">&quot;close&quot;</span>, <span class="st">&quot;volume&quot;</span>, <span class="st">&quot;adjusted&quot;</span></span>
+<span id="cb3-12"><a href="unidad2.html#cb3-12" tabindex="-1"></a>)</span>
+<span id="cb3-13"><a href="unidad2.html#cb3-13" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="unidad2.html#cb3-14" tabindex="-1"></a><span class="co"># Seleccionar solo fecha y precio ajustado</span></span>
+<span id="cb3-15"><a href="unidad2.html#cb3-15" tabindex="-1"></a>precio_df <span class="ot">&lt;-</span> stock_df <span class="sc">%&gt;%</span></span>
+<span id="cb3-16"><a href="unidad2.html#cb3-16" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb3-17"><a href="unidad2.html#cb3-17" tabindex="-1"></a>    fecha,</span>
+<span id="cb3-18"><a href="unidad2.html#cb3-18" tabindex="-1"></a>    <span class="at">precio =</span> adjusted</span>
+<span id="cb3-19"><a href="unidad2.html#cb3-19" tabindex="-1"></a>  )</span>
+<span id="cb3-20"><a href="unidad2.html#cb3-20" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="unidad2.html#cb3-21" tabindex="-1"></a><span class="co"># Mostrar las primeras filas</span></span>
+<span id="cb3-22"><a href="unidad2.html#cb3-22" tabindex="-1"></a><span class="fu">head</span>(precio_df)</span></code></pre></div>
+<pre><code>##        fecha   precio
+## 1 2022-01-03 178.8799
+## 2 2022-01-04 176.6096
+## 3 2022-01-05 171.9118
+## 4 2022-01-06 169.0420
+## 5 2022-01-07 169.2091
+## 6 2022-01-10 169.2288</code></pre>
+</div>
+<div id="visualización-del-precio-ajustado-diario" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Visualización del precio ajustado diario<a href="unidad2.html#visualización-del-precio-ajustado-diario" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este paso creamos un gráfico de línea para observar la evolución diaria del precio ajustado de la acción.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="unidad2.html#cb5-1" tabindex="-1"></a><span class="fu">ggplot</span>(precio_df, <span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> precio)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="unidad2.html#cb5-2" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb5-3"><a href="unidad2.html#cb5-3" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-4"><a href="unidad2.html#cb5-4" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Precio Ajustado Diario de Apple&quot;</span>,</span>
+<span id="cb5-5"><a href="unidad2.html#cb5-5" tabindex="-1"></a>    <span class="at">x     =</span> <span class="cn">NULL</span>,</span>
+<span id="cb5-6"><a href="unidad2.html#cb5-6" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Precio (USD)&quot;</span></span>
+<span id="cb5-7"><a href="unidad2.html#cb5-7" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="unidad2.html#cb5-8" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>El gráfico muestra la evolución diaria del precio ajustado de la acción de Apple (AAPL) desde comienzos de 2022 hasta mediados de 2025. A grandes rasgos podemos distinguir tres fases:</p>
+<p>Fase bajista (ene 2022–dic 2022):</p>
+<p>A inicios de 2022 el precio rondaba los USD 160–170, pero durante el año se produce una tendencia general a la baja.</p>
+<p>Hacia finales de 2022 alcanza mínimos alrededor de USD 120, reflejando probablemente el impacto de la subida de tipos de interés y la aversión al riesgo en el sector tecnológico.</p>
+<p>Recuperación y consolidación (ene 2023–jun 2024):</p>
+<p>A partir de enero de 2023 el precio inicia un rebote sostenido, superando los USD 150 ya en la primera mitad del año.</p>
+<p>Entre mediados de 2023 y mitad de 2024 se mueve en un rango aproximadamente entre USD 170 y USD 200, señal de una consolidación tras la fuerte caída previa.</p>
+<p>Rally alcista y corrección reciente (jul 2024–2025):</p>
+<p>Desde mediados de 2024 el precio rompe la resistencia en USD 200 y se dispara hasta tocar picos próximos a USD 250 a comienzos de 2025, probablemente animado por resultados financieros sólidos y expectativas de crecimiento.</p>
+<p>Posteriormente se observa una corrección, con el precio retrocediendo hacia la zona de USD 200–220, un nivel que podría actuar ahora como soporte.</p>
+<p>En conjunto, el gráfico evidencia (a) alta volatilidad intradía, (b) un claro cambio de tendencia de bajista a alcista a inicios de 2023, y (c) zonas de soporte/resistencia alrededor de USD 120–130, USD 170–200 y USD 240–250. Este comportamiento es consistente con ciclos de mercado impulsados por datos macroeconómicos, resultados corporativos y sentimiento sobre el crecimiento tecnológico.</p>
+</div>
+<div id="cálculo-y-visualización-de-medias-móviles" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Cálculo y visualización de medias móviles<a href="unidad2.html#cálculo-y-visualización-de-medias-móviles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Calculamos dos medias móviles simples (20 y 60 días) para suavizar la serie y captar posibles tendencias de corto y mediano plazo. Luego las graficamos junto con el precio original.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="unidad2.html#cb6-1" tabindex="-1"></a>precio_df <span class="ot">&lt;-</span> precio_df <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="unidad2.html#cb6-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-3"><a href="unidad2.html#cb6-3" tabindex="-1"></a>    <span class="at">sma_20 =</span> <span class="fu">SMA</span>(precio, <span class="at">n =</span> <span class="dv">20</span>),</span>
+<span id="cb6-4"><a href="unidad2.html#cb6-4" tabindex="-1"></a>    <span class="at">sma_60 =</span> <span class="fu">SMA</span>(precio, <span class="at">n =</span> <span class="dv">60</span>)</span>
+<span id="cb6-5"><a href="unidad2.html#cb6-5" tabindex="-1"></a>  )</span>
+<span id="cb6-6"><a href="unidad2.html#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="unidad2.html#cb6-7" tabindex="-1"></a><span class="fu">ggplot</span>(precio_df, <span class="fu">aes</span>(<span class="at">x =</span> fecha)) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="unidad2.html#cb6-8" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> precio),    <span class="at">colour =</span> <span class="st">&quot;grey60&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="unidad2.html#cb6-9" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> sma_20),    <span class="at">colour =</span> <span class="st">&quot;steelblue&quot;</span>,  <span class="at">size =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="unidad2.html#cb6-10" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> sma_60),    <span class="at">colour =</span> <span class="st">&quot;firebrick&quot;</span>,  <span class="at">size =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="unidad2.html#cb6-11" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-12"><a href="unidad2.html#cb6-12" tabindex="-1"></a>    <span class="at">title   =</span> <span class="st">&quot;Precio vs. Promedios Móviles (20 y 60 días)&quot;</span>,</span>
+<span id="cb6-13"><a href="unidad2.html#cb6-13" tabindex="-1"></a>    <span class="at">x       =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-14"><a href="unidad2.html#cb6-14" tabindex="-1"></a>    <span class="at">y       =</span> <span class="st">&quot;Precio (USD)&quot;</span>,</span>
+<span id="cb6-15"><a href="unidad2.html#cb6-15" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Cálculo con tidyquant::SMA&quot;</span></span>
+<span id="cb6-16"><a href="unidad2.html#cb6-16" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="unidad2.html#cb6-17" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>El gráfico superpone el precio diario de Apple (línea gris) con dos medias móviles simples: la de 20 días (línea azul) y la de 60 días (línea roja). A continuación algunos puntos clave de interpretación:</p>
+<p><strong>Suavizado y tendencia</strong></p>
+<ul>
+<li><p>La SMA de 20 días reacciona con menor retraso a los cambios de precio, reflejando con más fidelidad las oscilaciones de corto plazo.</p></li>
+<li><p>La SMA de 60 días, al promediar un periodo más largo, muestra la tendencia de fondo con menos ruido.</p></li>
+</ul>
+<p><strong>Fases de mercado y cruces</strong></p>
+<p><strong>Bajista (2022):</strong> durante gran parte de 2022 la SMA-20 (azul) se mantiene por debajo de la SMA-60 (roja), confirmando un sesgo bajista.</p>
+<p><strong>Golden cross (primer trimestre 2023):</strong> el cruce alcista de la SMA-20 por encima de la SMA-60 a principios de 2023 marcó un cambio de impulso a favor de los compradores. Tras ese cruce, el precio encuentra soporte en ambas medias y arranca la recuperación.</p>
+<p><strong>Consolidación (mediados de 2023–2024):</strong> las dos medias se aproximan y se entrecruzan varias veces, señal de un rango lateral con fases alternadas de ventaja para alcistas y bajistas.</p>
+<p><strong>Nuevo rally (finales de 2024):</strong> vuelve a formarse un golden cross antes de que el precio alcance los máximos cerca de USD 250. La SMA-20 se separa de la SMA-60, reforzando la fuerza alcista.</p>
+<p><strong>Death cross reciente (2025):¨</strong> la SMA-20 corta a la baja la SMA-60 después del pico, indicando un posible cambio de impulso hacia una fase correctiva.</p>
+<p><strong>Señales de trading y confirmaciones</strong></p>
+<ul>
+<li><p>Un cruce alcista (SMA-20 &gt; SMA-60) suele interpretarse como señal de compra, especialmente si coincide con ruptura de resistencias en el precio.</p></li>
+<li><p>Un cruce bajista (SMA-20 &lt; SMA-60) se toma como señal de venta o cautela, más sólida si acompaña caídas por debajo de soportes técnicos.</p></li>
+</ul>
+<p><strong>Limitaciones</strong></p>
+<ul>
+<li><p>Las medias móviles introducen retraso (“lag”): reaccionan después de que el precio ya ha comenzado a moverse.</p></li>
+<li><p>En mercados muy volátiles pueden generar señales falsas cuando las medias se cruzan con frecuencia.</p></li>
+</ul>
+</div>
+<div id="cálculo-de-rendimientos-diarios-y-acf" class="section level2 hasAnchor" number="5.6">
+<h2><span class="header-section-number">5.6</span> Cálculo de rendimientos diarios y ACF<a href="unidad2.html#cálculo-de-rendimientos-diarios-y-acf" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Primero convertimos el data.frame a un tsibble para aprovechar las funciones de feasts. Calculamos el rendimiento diario en porcentaje, rellenamos posibles huecos implícitos y, por último, analizamos la autocorrelación de esos rendimientos.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="unidad2.html#cb7-1" tabindex="-1"></a>precio_ts <span class="ot">&lt;-</span> precio_df <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="unidad2.html#cb7-2" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> fecha) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="unidad2.html#cb7-3" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-4"><a href="unidad2.html#cb7-4" tabindex="-1"></a>    <span class="at">ret_diario =</span> (precio <span class="sc">/</span> <span class="fu">lag</span>(precio) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb7-5"><a href="unidad2.html#cb7-5" tabindex="-1"></a>  )</span>
+<span id="cb7-6"><a href="unidad2.html#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="unidad2.html#cb7-7" tabindex="-1"></a><span class="co"># Rellenar huecos para evitar errores en ACF</span></span>
+<span id="cb7-8"><a href="unidad2.html#cb7-8" tabindex="-1"></a>precio_ts_filled <span class="ot">&lt;-</span> precio_ts <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="unidad2.html#cb7-9" tabindex="-1"></a>  <span class="fu">fill_gaps</span>()</span>
+<span id="cb7-10"><a href="unidad2.html#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="unidad2.html#cb7-11" tabindex="-1"></a><span class="fu">ggplot</span>(precio_ts, <span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> ret_diario)) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="unidad2.html#cb7-12" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">&quot;darkorange&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="unidad2.html#cb7-13" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-14"><a href="unidad2.html#cb7-14" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Rendimiento Diario (%)&quot;</span>,</span>
+<span id="cb7-15"><a href="unidad2.html#cb7-15" tabindex="-1"></a>    <span class="at">x     =</span> <span class="cn">NULL</span>,</span>
+<span id="cb7-16"><a href="unidad2.html#cb7-16" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Variación %&quot;</span></span>
+<span id="cb7-17"><a href="unidad2.html#cb7-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-18"><a href="unidad2.html#cb7-18" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="unidad2.html#cb8-1" tabindex="-1"></a>precio_ts_filled <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="unidad2.html#cb8-2" tabindex="-1"></a>  <span class="fu">ACF</span>(ret_diario, <span class="at">lag_max =</span> <span class="dv">30</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="unidad2.html#cb8-3" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb8-4"><a href="unidad2.html#cb8-4" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-5"><a href="unidad2.html#cb8-5" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Función de Autocorrelación (ACF) · Rendimientos&quot;</span>,</span>
+<span id="cb8-6"><a href="unidad2.html#cb8-6" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;Rezagos (días)&quot;</span>,</span>
+<span id="cb8-7"><a href="unidad2.html#cb8-7" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;ACF&quot;</span></span>
+<span id="cb8-8"><a href="unidad2.html#cb8-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="unidad2.html#cb8-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>El primer gráfico muestra la serie de rendimientos diarios (%) de Apple entre 2022 y mediados de 2025:</p>
+<p><strong>Media cercana a cero:</strong> la nube de puntos (línea continua) oscila alrededor de 0 %, lo cual es típico en rendimientos de activos cuyo valor esperado diario es casi nulo.</p>
+<p><strong>Volatilidad variable:</strong> se aprecian periodos de baja dispersión (p. ej. gran parte de 2024) y episodios de alta volatilidad (fines de 2022, principios de 2023 y otra vez en 2025), donde los retornos superan ±5 % en un solo día. Estos “spikes” coinciden probablemente con anuncios de resultados trimestrales o noticias macro.</p>
+<p><strong>Clusters de volatilidad:</strong> los picos tienden a agruparse, indicando que tras un día muy volátil suele haber más días de alta volatilidad, y viceversa.</p>
+<p>El segundo gráfico es la Función de Autocorrelación (ACF) de los rendimientos (hasta 30 rezagos):</p>
+<p><strong>Rezago 1: autocorrelación negativa significativa</strong>
+El coeficiente en el rezago 1 aparece por debajo de la banda de significancia (aprox. –0.10), lo que sugiere un ligero efecto de reversión inmediata: un día de ganancia tiende a ir seguido, en promedio, por un pequeño retroceso al día siguiente.</p>
+<p><strong>Un rezago positivo aislado</strong>
+Se observa un único bar por encima de la banda superior en un rezago medio (p. ej. alrededor de 15–20 días), lo que podría apuntar a una débil pauta de retorno alcista mensual, aunque este efecto es muy débil y aislado.</p>
+<p><strong>Ausencia de autocorrelaciones consistentes</strong>
+Más allá de esos dos rezagos, todos los demás coeficientes caen dentro de las bandas de confianza, indicando que los rendimientos diarios, salvo esas dos excepciones, se comportan esencialmente como una serie sin memoria (compatible con la hipótesis de mercados eficientes en su forma débil).</p>
+<p>En conjunto, estos gráficos resaltan que los retornos de Apple presentan volatilidad heterogénea y muy poca dependencia temporal, salvo un ligero sesgo de reversión intradía y una señal puntual de autocorrelación mensual.</p>
+</div>
+<div id="estacionalidad-y-descomposición-stl" class="section level2 hasAnchor" number="5.7">
+<h2><span class="header-section-number">5.7</span> Estacionalidad y descomposición STL<a href="unidad2.html#estacionalidad-y-descomposición-stl" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Agrupamos la serie por mes (usando el promedio mensual) y aplicamos un modelo STL para extraer las componentes de tendencia, estacionalidad y residuos.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="unidad2.html#cb9-1" tabindex="-1"></a><span class="co"># Promedio mensual</span></span>
+<span id="cb9-2"><a href="unidad2.html#cb9-2" tabindex="-1"></a>precio_mens <span class="ot">&lt;-</span> precio_ts <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="unidad2.html#cb9-3" tabindex="-1"></a>  <span class="fu">index_by</span>(<span class="at">mes =</span> <span class="sc">~</span> <span class="fu">yearmonth</span>(.)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="unidad2.html#cb9-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">precio =</span> <span class="fu">mean</span>(precio, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb9-5"><a href="unidad2.html#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="unidad2.html#cb9-6" tabindex="-1"></a><span class="co"># Descomposición STL con ventana de 13 meses</span></span>
+<span id="cb9-7"><a href="unidad2.html#cb9-7" tabindex="-1"></a>stl_descomp <span class="ot">&lt;-</span> precio_mens <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="unidad2.html#cb9-8" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">STL</span>(precio <span class="sc">~</span> <span class="fu">trend</span>(<span class="at">window =</span> <span class="dv">13</span>)))</span>
+<span id="cb9-9"><a href="unidad2.html#cb9-9" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="unidad2.html#cb9-10" tabindex="-1"></a><span class="co"># Graficar componentes</span></span>
+<span id="cb9-11"><a href="unidad2.html#cb9-11" tabindex="-1"></a><span class="fu">components</span>(stl_descomp) <span class="sc">%&gt;%</span></span>
+<span id="cb9-12"><a href="unidad2.html#cb9-12" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb9-13"><a href="unidad2.html#cb9-13" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-14"><a href="unidad2.html#cb9-14" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Descomposición STL · Precio Mensual Promedio&quot;</span>,</span>
+<span id="cb9-15"><a href="unidad2.html#cb9-15" tabindex="-1"></a>    <span class="at">x     =</span> <span class="cn">NULL</span></span>
+<span id="cb9-16"><a href="unidad2.html#cb9-16" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-17"><a href="unidad2.html#cb9-17" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>En este gráfico vemos la descomposición STL de la serie de precio mensual promedio de Apple en tres componentes:</p>
+<p><strong>Serie original (precio)</strong></p>
+<p><strong>Panel superior:</strong> muestra el promedio mensual del precio ajustado. Se aprecia claramente la misma dinámica que en los gráficos diarios, pero suavizada al promediar por mes: un descenso durante 2022, consolidación en 2023, y un fuerte ascenso desde mediados de 2024 hasta principios de 2025, con una leve corrección al final.</p>
+<p><strong>Tendencia (trend)</strong></p>
+<p><strong>Segundo panel:</strong> extrae la “línea de fondo” de largo plazo. Aquí la tendencia es casi plana durante 2022, comienza a subir de forma continua a partir de comienzos de 2023 y acelera entre mediados de 2024 y principios de 2025, alcanzando un nivel cercano a 230 USD. Esta componente confirma el cambio de sesgo de mercado de neutro/bajista a fuertemente alcista.</p>
+<p><strong>Estacionalidad anual (season_year)</strong></p>
+<p><strong>Tercer panel:</strong> muestra el patrón estacional que se repite cada año. La amplitud es de unos ±8–10 USD alrededor de la tendencia:</p>
+<ul>
+<li><p>Aparece un pico positivo en torno al primer trimestre (posiblemente enero–marzo),</p></li>
+<li><p>Seguido de un descenso por debajo de cero hacia verano,</p></li>
+<li><p>Otro repunte moderado hacia el último tramo del año.</p></li>
+<li><p>Esto indica que, sin importar la tendencia alcista de fondo, hay meses que tienden a estar sistemáticamente por encima (picos) o por debajo (valles) de lo que marca la tendencia.</p></li>
+</ul>
+<p><strong>Residuales (remainder)</strong></p>
+<p><strong>Panel inferior:</strong> recoge las oscilaciones irregulares no explicadas por la tendencia ni la estacionalidad. Se observa que, salvo algunos “outliers” (picos muy altos o muy bajos), la mayoría de los residuos fluctúa dentro de ±5 USD, lo que sugiere que el modelo STL captura bien las dos componentes principales y deja poca varianza sin explicar.</p>
+<p><strong>Conclusión:</strong></p>
+<ul>
+<li><p>La serie tiene una tendencia alcista clara desde 2023.</p></li>
+<li><p>Existe un patrón estacional anual de amplitud moderada, con máximos en el primer trimestre y mínimos en verano.</p></li>
+<li><p>Los residuales son relativamente pequeños, lo que indica que la evolución de los precios mensuales se explica en gran medida por la combinación de estos dos factores.</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="alcance-del-pronóstico.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="unidad3.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>
