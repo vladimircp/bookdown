@@ -5,4 +5,6 @@ language:
 delete_merged_file: true
 rmd_files:
   - index.Rmd
-  - 01-analisis-temporal.Rmd
+  - 01-unidad2.Rmd
+  - 02-unidad3.Rmd
+  - 03-modulo2-undiad1.Rmd
