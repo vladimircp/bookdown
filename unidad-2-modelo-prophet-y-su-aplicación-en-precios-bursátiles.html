@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 10 Unidad 2 · Modelo Prophet y su aplicación en precios bursátiles | Módulo 2 - Unidad 3 · Regresión en series de tiempo</title>
+  <meta name="description" content="Chapter 10 Unidad 2 · Modelo Prophet y su aplicación en precios bursátiles | Módulo 2 - Unidad 3 · Regresión en series de tiempo" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 10 Unidad 2 · Modelo Prophet y su aplicación en precios bursátiles | Módulo 2 - Unidad 3 · Regresión en series de tiempo" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 10 Unidad 2 · Modelo Prophet y su aplicación en precios bursátiles | Módulo 2 - Unidad 3 · Regresión en series de tiempo" />
+  
+  
+  
+
+<meta name="author" content="Vladimir Castillo Pérez" />
+
+
+<meta name="date" content="2025-05-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="unidad6.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="05-modulo2-unidad3.html"><a href="#introducci%C3%B3n"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="05-modulo2-unidad3.html"><a href="#justificaci%C3%B3n"><i class="fa fa-check"></i><b>2</b> Justificación</a></li>
+<li class="chapter" data-level="3" data-path="05-modulo2-unidad3.html"><a href="#fuentes-de-informaci%C3%B3n-y-permisos"><i class="fa fa-check"></i><b>3</b> Fuentes de información y permisos</a></li>
+<li class="chapter" data-level="4" data-path="05-modulo2-unidad3.html"><a href="#alcance-del-pron%C3%B3stico"><i class="fa fa-check"></i><b>4</b> Alcance del pronóstico</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="05-modulo2-unidad3.html"><a href="#el-an%C3%A1lisis-abarcar%C3%A1-un-horizonte-de-30-a-90-d%C3%ADas-con-reevaluaci%C3%B3n-semanal-priorizando-m%C3%A9tricas-de-precisi%C3%B3n-como-mae-y-rmse-y-la-construcci%C3%B3n-de-intervalos-de-predicci%C3%B3n-al-95-."><i class="fa fa-check"></i><b>4.1</b> El análisis abarcará un horizonte de <strong>30 a 90 días</strong> con reevaluación semanal, priorizando métricas de precisión como <em>MAE</em> y <em>RMSE</em> y la construcción de intervalos de predicción al 95 %.</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="unidad2.html"><a href="unidad2.html"><i class="fa fa-check"></i><b>5</b> Unidad 2 · Patrones temporales en precios de acciones</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-modulo2-unidad3.html"><a href="#configuraci%C3%B3n-inicial"><i class="fa fa-check"></i><b>5.1</b> Configuración inicial</a></li>
+<li class="chapter" data-level="5.2" data-path="05-modulo2-unidad3.html"><a href="#definici%C3%B3n-de-par%C3%A1metros-y-descarga-de-datos"><i class="fa fa-check"></i><b>5.2</b> Definición de parámetros y descarga de datos</a></li>
+<li class="chapter" data-level="5.3" data-path="05-modulo2-unidad3.html"><a href="#preparaci%C3%B3n-y-limpieza-de-datos"><i class="fa fa-check"></i><b>5.3</b> Preparación y limpieza de datos</a></li>
+<li class="chapter" data-level="5.4" data-path="05-modulo2-unidad3.html"><a href="#visualizaci%C3%B3n-del-precio-ajustado-diario"><i class="fa fa-check"></i><b>5.4</b> Visualización del precio ajustado diario</a></li>
+<li class="chapter" data-level="5.5" data-path="05-modulo2-unidad3.html"><a href="#c%C3%A1lculo-y-visualizaci%C3%B3n-de-medias-m%C3%B3viles"><i class="fa fa-check"></i><b>5.5</b> Cálculo y visualización de medias móviles</a></li>
+<li class="chapter" data-level="5.6" data-path="05-modulo2-unidad3.html"><a href="#c%C3%A1lculo-de-rendimientos-diarios-y-acf"><i class="fa fa-check"></i><b>5.6</b> Cálculo de rendimientos diarios y ACF</a></li>
+<li class="chapter" data-level="5.7" data-path="05-modulo2-unidad3.html"><a href="#estacionalidad-y-descomposici%C3%B3n-stl"><i class="fa fa-check"></i><b>5.7</b> Estacionalidad y descomposición STL</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="unidad3.html"><a href="unidad3.html"><i class="fa fa-check"></i><b>6</b> Unidad 3 · Procesamiento y Visualización</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="unidad3.html"><a href="unidad3.html#prueba-de-estacionariedad"><i class="fa fa-check"></i><b>6.1</b> Prueba de estacionariedad</a></li>
+<li class="chapter" data-level="6.2" data-path="05-modulo2-unidad3.html"><a href="#diferenciaci%C3%B3n-y-transformaci%C3%B3n"><i class="fa fa-check"></i><b>6.2</b> Diferenciación y transformación</a></li>
+<li class="chapter" data-level="6.3" data-path="05-modulo2-unidad3.html"><a href="#justificaci%C3%B3n-de-los-procedimientos"><i class="fa fa-check"></i><b>6.3</b> Justificación de los procedimientos</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="unidad4.html"><a href="unidad4.html"><i class="fa fa-check"></i><b>7</b> Módulo 2 - Unidad 1 · Holt-Winters y suavizamiento exponencial</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="unidad4.html"><a href="unidad4.html#hot-winters"><i class="fa fa-check"></i><b>7.1</b> Hot-Winters</a></li>
+<li class="chapter" data-level="7.2" data-path="05-modulo2-unidad3.html"><a href="#interpretaci%C3%B3n-de-los-resultados"><i class="fa fa-check"></i><b>7.2</b> Interpretación de los resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="unidad5.html"><a href="unidad5.html"><i class="fa fa-check"></i><b>8</b> Módulo 2 - Unidad 2 · Modelos estacionarios en series de tiempo</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="05-modulo2-unidad3.html"><a href="#introducci%C3%B3n-1"><i class="fa fa-check"></i><b>8.1</b> Introducción</a></li>
+<li class="chapter" data-level="8.2" data-path="05-modulo2-unidad3.html"><a href="#carga-y-preparaci%C3%B3n-de-la-serie"><i class="fa fa-check"></i><b>8.2</b> Carga y preparación de la serie</a></li>
+<li class="chapter" data-level="8.3" data-path="unidad5.html"><a href="unidad5.html#ajuste-de-un-modelo-lineal-de-tendencia"><i class="fa fa-check"></i><b>8.3</b> Ajuste de un modelo lineal de tendencia</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="05-modulo2-unidad3.html"><a href="#interpretaci%C3%B3n-de-la-tendencia-lineal"><i class="fa fa-check"></i><b>8.3.1</b> Interpretación de la tendencia lineal</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="unidad5.html"><a href="unidad5.html#estacionariedad-de-los-residuos"><i class="fa fa-check"></i><b>8.4</b> Estacionariedad de los residuos</a></li>
+<li class="chapter" data-level="8.5" data-path="05-modulo2-unidad3.html"><a href="#identificaci%C3%B3n-y-estimaci%C3%B3n-arma"><i class="fa fa-check"></i><b>8.5</b> Identificación y estimación ARMA</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="05-modulo2-unidad3.html"><a href="#interpretaci%C3%B3n-del-ajuste-arima0-0-0-ruido-blanco-con-media"><i class="fa fa-check"></i><b>8.5.1</b> Interpretación del ajuste ARIMA(0, 0, 0) (ruido blanco con media)</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="05-modulo2-unidad3.html"><a href="#pron%C3%B3stico-de-corto-plazo-30-d%C3%ADas"><i class="fa fa-check"></i><b>8.6</b> Pronóstico de corto plazo (30 días)</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="unidad6.html"><a href="unidad6.html"><i class="fa fa-check"></i><b>9</b> Módulo 2 - Unidad 3 · Regresión en series de tiempo</a></li>
+<li class="chapter" data-level="10" data-path="05-modulo2-unidad3.html"><a href="#unidad-2-modelo-prophet-y-su-aplicaci%C3%B3n-en-precios-burs%C3%A1tiles"><i class="fa fa-check"></i><b>10</b> Unidad 2 · Modelo Prophet y su aplicación en precios bursátiles</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="05-modulo2-unidad3.html"><a href="#introducci%C3%B3n-2"><i class="fa fa-check"></i><b>10.1</b> Introducción</a></li>
+<li class="chapter" data-level="10.2" data-path="05-modulo2-unidad3.html"><a href="#justificaci%C3%B3n-1"><i class="fa fa-check"></i><b>10.2</b> Justificación</a></li>
+<li class="chapter" data-level="10.3" data-path="05-modulo2-unidad3.html"><a href="#objetivo-de-esta-secci%C3%B3n"><i class="fa fa-check"></i><b>10.3</b> Objetivo de esta sección</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html"><i class="fa fa-check"></i><b>10.3.1</b> Resultados del modelo Prophet</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#componentes-del-modelo-prophet"><i class="fa fa-check"></i><b>10.4</b> Componentes del modelo Prophet</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="05-modulo2-unidad3.html"><a href="#descomposici%C3%B3n-de-componentes-prophet"><i class="fa fa-check"></i><b>10.4.1</b> Descomposición de componentes · Prophet</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Módulo 2 - Unidad 3 · Regresión en series de tiempo</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Chapter 10</span> Unidad 2 · Modelo Prophet y su aplicación en precios bursátiles<a href="#unidad-2-modelo-prophet-y-su-aplicaci%C3%B3n-en-precios-burs%C3%A1tiles" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introducción-2" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Introducción<a href="#introducci%C3%B3n-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A lo largo del proyecto se han implementado modelos clásicos como <strong>Holt-Winters</strong>, <strong>ARIMA</strong> y <strong>modelos lineales con residuos estacionarios</strong>, los cuales han permitido modelar adecuadamente la dinámica de precios del índice <strong>MSCI COLCAP</strong>. Sin embargo, dada la complejidad inherente del mercado accionario —caracterizada por cambios estructurales, efectos de eventos externos y estacionalidades múltiples— se propone incorporar un modelo más flexible y automatizado: <strong>Facebook Prophet</strong>.</p>
+<p>El algoritmo Prophet fue desarrollado por el equipo de data science de Facebook con el objetivo de facilitar el pronóstico de series temporales complejas con mínima intervención humana. Su diseño se basa en una descomposición aditiva de la serie temporal en componentes de tendencia, estacionalidad y eventos especiales:</p>
+<p><span class="math inline">\(y(t) = g(t) + s(t) + h(t) + \varepsilon_t\)</span></p>
+<p>Donde:</p>
+<ul>
+<li><span class="math inline">\(g(t)\)</span> representa la <strong>tendencia global</strong> (puede ser lineal o logística con puntos de cambio),</li>
+<li><span class="math inline">\(s(t)\)</span> capta patrones <strong>estacionales</strong> (semanales, anuales, u otros definidos por Fourier),</li>
+<li><span class="math inline">\(h(t)\)</span> incluye <strong>efectos de días festivos u otros eventos relevantes</strong>,</li>
+<li><span class="math inline">\(\varepsilon_t\)</span> es el <strong>ruido blanco</strong> o error residual.</li>
+</ul>
+</div>
+<div id="justificación-1" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Justificación<a href="#justificaci%C3%B3n-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El uso de Prophet está plenamente justificado en este análisis por varias razones:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Tendencia y estacionalidad compleja</strong>: La serie diaria del COLCAP presenta múltiples fases con cambios abruptos, consolidaciones y rallies, lo cual se ajusta bien al enfoque de tendencia por tramos y estacionalidades múltiples que ofrece Prophet.</p></li>
+<li><p><strong>Robustez ante datos faltantes</strong>: A diferencia de ARIMA, Prophet maneja de forma automática fechas sin observación, lo cual es útil en mercados con días sin operación (festivos, cierres de mercado, etc.).</p></li>
+<li><p><strong>Automatización y transparencia</strong>: Prophet permite una implementación rápida, interpretaciones claras de sus componentes y generación automática de intervalos de confianza.</p></li>
+<li><p><strong>Complemento metodológico</strong>: La estructura aditiva de Prophet, aunque diferente en su enfoque, <strong>se alinea con el marco de regresión ya trabajado</strong>, al considerar explícitamente la tendencia como un predictor del comportamiento de la serie. Esto permite <strong>justificar su uso como un modelo de regresión estructural aplicado a series de tiempo</strong>.</p></li>
+</ol>
+</div>
+<div id="objetivo-de-esta-sección" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Objetivo de esta sección<a href="#objetivo-de-esta-secci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Aplicar el modelo Prophet al índice MSCI COLCAP, generar un pronóstico a 30 días, analizar la descomposición de sus componentes y comparar su desempeño frente a los modelos previamente ajustados (lineal + ARMA y Holt-Winters).</p>
+<hr />
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-1" tabindex="-1"></a><span class="co"># Cargar librerías necesarias</span></span>
+<span id="cb24-2"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-2" tabindex="-1"></a><span class="fu">library</span>(prophet)</span>
+<span id="cb24-3"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb24-4"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-4" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb24-5"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-5" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb24-6"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-6" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb24-7"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-7" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-8" tabindex="-1"></a><span class="co"># Asumimos que datos_colcap ya fue preparado</span></span>
+<span id="cb24-9"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-9" tabindex="-1"></a>df_prophet <span class="ot">&lt;-</span> datos_colcap <span class="sc">%&gt;%</span></span>
+<span id="cb24-10"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-10" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">ds =</span> fecha, <span class="at">y =</span> precio) <span class="sc">%&gt;%</span></span>
+<span id="cb24-11"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-11" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(y)) <span class="co"># quitar NAs si los hay</span></span>
+<span id="cb24-12"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-12" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-13" tabindex="-1"></a><span class="fu">head</span>(df_prophet)</span>
+<span id="cb24-14"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-14" tabindex="-1"></a></span>
+<span id="cb24-15"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-15" tabindex="-1"></a><span class="co"># Inicializar y ajustar modelo</span></span>
+<span id="cb24-16"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-16" tabindex="-1"></a>modelo_prophet <span class="ot">&lt;-</span> <span class="fu">prophet</span>(df_prophet)</span>
+<span id="cb24-17"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-17" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-18" tabindex="-1"></a><span class="co"># Crear horizonte de 30 días hacia el futuro</span></span>
+<span id="cb24-19"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-19" tabindex="-1"></a>futuro <span class="ot">&lt;-</span> <span class="fu">make_future_dataframe</span>(modelo_prophet, <span class="at">periods =</span> <span class="dv">30</span>)</span>
+<span id="cb24-20"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-20" tabindex="-1"></a></span>
+<span id="cb24-21"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-21" tabindex="-1"></a><span class="co"># Generar pronóstico</span></span>
+<span id="cb24-22"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-22" tabindex="-1"></a>pronostico <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo_prophet, futuro)</span>
+<span id="cb24-23"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-23" tabindex="-1"></a></span>
+<span id="cb24-24"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-24" tabindex="-1"></a><span class="co"># Visualización</span></span>
+<span id="cb24-25"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-25" tabindex="-1"></a><span class="fu">plot</span>(modelo_prophet, pronostico) <span class="sc">+</span></span>
+<span id="cb24-26"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb24-26" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Pronóstico MSCI COLCAP con Prophet (h = 30 días)&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>## # A tsibble: 6 x 2 [1D]
+##   ds             y
+##   &lt;date&gt;     &lt;dbl&gt;
+## 1 2020-01-01 1494.
+## 2 2020-01-02 1492.
+## 3 2020-01-03 1508.
+## 4 2020-01-04 1508.
+## 5 2020-01-05 1510.
+## 6 2020-01-06 1527.</code></pre>
+<div id="resultados-del-modelo-prophet" class="section level3 hasAnchor" number="10.3.1">
+<h3><span class="header-section-number">10.3.1</span> Resultados del modelo Prophet<a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#resultados-del-modelo-prophet" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La gráfica anterior muestra el ajuste del modelo <strong>Facebook Prophet</strong> al índice diario <strong>MSCI COLCAP</strong>, con un horizonte de pronóstico de <strong>30 días</strong>.</p>
+<div id="componentes-observados" class="section level4 hasAnchor" number="10.3.1.1">
+<h4><span class="header-section-number">10.3.1.1</span> Componentes observados:<a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#componentes-observados" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li><p><strong>Serie observada (puntos negros):</strong>
+Representa el comportamiento real del COLCAP desde 2020 hasta finales de 2021. Se aprecian fases de crecimiento, caídas abruptas y consolidaciones típicas de los mercados financieros.</p></li>
+<li><p><strong>Línea azul (ajuste del modelo Prophet):</strong>
+Esta línea muestra el ajuste realizado por Prophet, capturando tanto la <strong>tendencia global</strong> como los <strong>patrones estacionales</strong> subyacentes en la serie temporal. El modelo logra adaptarse a los cambios estructurales, como la fuerte recuperación a mediados de 2021 y la corrección posterior.</p></li>
+<li><p><strong>Banda azul clara (intervalo de confianza):</strong>
+Corresponde al <strong>intervalo de predicción al 80–95 %</strong>, que refleja la incertidumbre estimada del modelo. A medida que nos alejamos del último dato observado, la banda se ensancha, lo cual es esperable debido al incremento en la incertidumbre de las predicciones a futuro.</p></li>
+</ol>
+</div>
+<div id="análisis" class="section level4 hasAnchor" number="10.3.1.2">
+<h4><span class="header-section-number">10.3.1.2</span> Análisis:<a href="#an%C3%A1lisis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Prophet captura de manera eficaz los <strong>puntos de inflexión</strong>, como el cambio de tendencia en 2021.</li>
+<li>La forma suave de la línea azul muestra que el modelo considera <strong>transiciones graduales</strong> y no bruscas, propias de una tendencia modelada por tramos lineales con puntos de cambio.</li>
+<li>El <strong>descenso proyectado</strong> para el siguiente mes sugiere una continuación de la fase bajista iniciada a fines de 2021, en línea con lo estimado por los modelos ARIMA previos.</li>
+<li>La amplitud del intervalo de confianza refleja adecuadamente la <strong>alta volatilidad</strong> del índice.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="componentes-del-modelo-prophet" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Componentes del modelo Prophet<a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#componentes-del-modelo-prophet" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#cb26-1" tabindex="-1"></a><span class="fu">prophet_plot_components</span>(modelo_prophet, pronostico)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="descomposición-de-componentes-prophet" class="section level3 hasAnchor" number="10.4.1">
+<h3><span class="header-section-number">10.4.1</span> Descomposición de componentes · Prophet<a href="#descomposici%C3%B3n-de-componentes-prophet" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>El gráfico superior presenta los <strong>componentes extraídos</strong> por el modelo Prophet a partir de la serie diaria del índice <strong>MSCI COLCAP</strong>. Esta descomposición permite analizar individualmente los efectos de la <strong>tendencia</strong> y la <strong>estacionalidad semanal</strong>, que influyen en la evolución del índice.</p>
+<div id="tendencia-global-trend" class="section level4 hasAnchor" number="10.4.1.1">
+<h4><span class="header-section-number">10.4.1.1</span> 1. Tendencia global (<code>trend</code>)<a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#tendencia-global-trend" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>La línea del primer panel muestra cómo evoluciona la tendencia estructural del índice en el tiempo.</li>
+<li>Se identifica una <strong>fase ascendente sostenida</strong> desde mediados de 2020 hasta mediados de 2021, reflejando una etapa de recuperación post-pandemia en los mercados colombianos.</li>
+<li>A partir del segundo semestre de 2021 se observa una <strong>corrección progresiva</strong>, con una caída en la tendencia hacia valores cercanos a 1400 puntos.</li>
+<li>Esta componente es crucial, ya que modela cambios no lineales a través de <strong>puntos de cambio (changepoints)</strong> automáticamente detectados por Prophet.</li>
+</ul>
+</div>
+<div id="estacionalidad-semanal-weekly" class="section level4 hasAnchor" number="10.4.1.2">
+<h4><span class="header-section-number">10.4.1.2</span> 2. Estacionalidad semanal (<code>weekly</code>)<a href="unidad-2-modelo-prophet-y-su-aplicación-en-precios-bursátiles.html#estacionalidad-semanal-weekly" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>El segundo panel representa el efecto medio que cada <strong>día de la semana</strong> ejerce sobre el índice, una vez controlada la tendencia general.</li>
+<li>El patrón muestra:
+<ul>
+<li>Un <strong>máximo relativo los martes</strong>, con un efecto positivo de más de 2 puntos.</li>
+<li><strong>Domingos y sábados</strong> con efecto negativo, lo cual puede reflejar que, al no haber transacciones bursátiles esos días, el modelo los ajusta como parte del ciclo semanal.</li>
+<li>Una <strong>caída progresiva</strong> desde miércoles hasta sábado, con los <strong>viernes mostrando efecto negativo</strong>, posiblemente por efecto de toma de utilidades antes del cierre semanal.</li>
+</ul></li>
+</ul>
+</div>
+<div id="conclusión" class="section level4 hasAnchor" number="10.4.1.3">
+<h4><span class="header-section-number">10.4.1.3</span> Conclusión:<a href="#conclusi%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>La tendencia revela cambios estructurales a lo largo de los dos años analizados, con un <strong>máximo en 2021</strong> y una reversión posterior.</li>
+<li>La estacionalidad semanal indica que existen <strong>patrones cíclicos intra-semana</strong>, lo que puede ser aprovechado para decisiones tácticas en portafolios activos.</li>
+<li>Esta descomposición <strong>enriquece la comprensión</strong> del comportamiento del COLCAP, permitiendo distinguir <strong>movimientos sistemáticos</strong> de los aleatorios y justificando el uso de Prophet como herramienta complementaria a los modelos ARIMA y Holt-Winters previamente ajustados.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="unidad6.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
